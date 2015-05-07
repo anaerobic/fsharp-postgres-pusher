@@ -58,11 +58,11 @@ let usage = """
 Usage: PostgresPusher [/s <server>] [/p <port>] [/u <userId>]
                       [/pw <password>] [/db <database>]
                       [/tbl <table>] [/col <column_for_value>]
-/c <server> - 
-/d <port>   -
-/u <userId>   -
-/pw <password>  -
-/db <database>    -
+/c <server> - Default: 127.0.0.1 The IP of the PostgreSQL server
+/d <port>   - Default: 5432
+/u <userId> - Default: postgres
+/pw <password>
+/db <database>
 /tbl <table>
 /col <column_for_value>
             """
@@ -72,9 +72,12 @@ let main argv =
     let args = parseArgs <| Array.toList argv <| Args defaults
     match args with
     | ParseError message -> 
-        System.Console.WriteLine message
-        System.Console.WriteLine usage
-        System.Console.ReadLine() |> ignore
+        Console.WriteLine message
+        Console.WriteLine usage
+        match Environment.UserInteractive with
+        | true -> 
+            Console.WriteLine "Press any key to exit..."
+            Console.ReadKey() |> ignore
         1
     | Args options ->
         let connString = sprintf "Server=%s;Port=%d;User Id=%s;Password=%s;Database=%s" options.server options.port options.userId options.pwd options.db
@@ -84,4 +87,4 @@ let main argv =
             readLine (fun line -> insertJsonInto conn options.table options.column line |> printfn "Inserted %d rows")
         finally
             conn.Close()
-        0 // return an integer exit code
+        0
