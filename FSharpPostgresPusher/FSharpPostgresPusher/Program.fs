@@ -1,16 +1,11 @@
 ﻿open System
 open Npgsql
 
-let insertInto connection commandString = 
-    let commandString = sprintf commandString
-    use command = new NpgsqlCommand(commandString, connection)
-    command.ExecuteNonQuery()
-
 let insertJsonInto connection table column value = 
     let commandString = sprintf "insert into %s (%s) values ('%s')" table column value
     use command = new NpgsqlCommand(commandString, connection)
     command.ExecuteNonQuery()
-
+    
 type args = 
     { server : string
       port : int
