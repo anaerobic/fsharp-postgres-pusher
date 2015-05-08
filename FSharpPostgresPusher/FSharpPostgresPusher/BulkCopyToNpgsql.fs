@@ -1,9 +1,11 @@
 ﻿module BulkCopyToNpgsql
 
 open Npgsql
+open System.Text
 
-let bulkCopyStdInTo (connection:string) table stdin = 
+let bulkCopyStdInTo (connection : string) table stdin = 
     use conn = new NpgsqlConnection(connection)
+    conn.Open()
     let commandString = sprintf "COPY %s FROM STDIN" table
     use command = new NpgsqlCommand(commandString, conn)
     let copyIn = new NpgsqlCopyIn(command, conn, stdin)
@@ -15,3 +17,4 @@ let bulkCopyStdInTo (connection:string) table stdin =
         with :? NpgsqlException as ex2 -> 
             match ex2.ToString().Contains("Undo copy") with
             | false -> failwithf "Failed to cancel copy: %A upon failure: %A" ex2 ex
+            reraise()

@@ -4,9 +4,8 @@ type ImportMethod =
     | BulkCopy = 0
     | Insert = 2
 
-let getImportMethod value =
-    ImportMethod.Parse(typeof<ImportMethod>, value) :?> ImportMethod
-    
+let getImportMethod value = ImportMethod.Parse(typeof<ImportMethod>, value) :?> ImportMethod
+
 type args = 
     { importMethod : ImportMethod
       server : string
