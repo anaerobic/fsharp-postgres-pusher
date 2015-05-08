@@ -26,6 +26,8 @@ let handleInvalidArgs (message : string) =
     | true -> 
         Console.WriteLine "Press any key to exit..."
         Console.ReadKey() |> ignore
+    | false ->
+        0 |> ignore
 
 let handleValidArgs options = 
     let connString = 
