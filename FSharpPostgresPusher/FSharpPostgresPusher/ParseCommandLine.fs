@@ -1,7 +1,15 @@
 ﻿module ParseCommandLine
 
+type ImportMethod = 
+    | BulkCopy = 0
+    | Insert = 2
+
+let getImportMethod value =
+    ImportMethod.Parse(typeof<ImportMethod>, value) :?> ImportMethod
+    
 type args = 
-    { server : string
+    { importMethod : ImportMethod
+      server : string
       port : int
       userId : string
       pwd : string
@@ -10,7 +18,8 @@ type args =
       column : string }
 
 let defaults = 
-    { server = "127.0.0.1"
+    { importMethod = ImportMethod.Insert
+      server = "127.0.0.1"
       port = 5432
       userId = "postgres"
       pwd = ""
@@ -27,6 +36,7 @@ let rec parseArgs (lst : string list) (defaults : parseResult) : parseResult =
     | ParseError message -> defaults
     | Args prev -> 
         match lst with
+        | "/i" :: tail -> parseArgs tail.Tail <| Args { prev with importMethod = getImportMethod tail.Head }
         | "/s" :: tail -> parseArgs tail.Tail <| Args { prev with server = tail.Head }
         | "/p" :: tail -> parseArgs tail.Tail <| Args { prev with port = int32 tail.Head }
         | "/u" :: tail -> parseArgs tail.Tail <| Args { prev with userId = tail.Head }

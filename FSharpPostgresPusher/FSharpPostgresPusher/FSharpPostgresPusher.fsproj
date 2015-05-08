@@ -58,6 +58,7 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="JsonResult.fs" />
     <Compile Include="JsonToNpgsql.fs" />
+    <Compile Include="BulkCopyToNpgsql.fs" />
     <Compile Include="ParseCommandLine.fs" />
     <Compile Include="ReadFromStandardIn.fs" />
     <Compile Include="Program.fs" />

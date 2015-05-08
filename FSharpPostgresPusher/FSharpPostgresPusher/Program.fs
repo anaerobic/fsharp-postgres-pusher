@@ -1,4 +1,5 @@
-﻿open JsonToNpgsql
+﻿open BulkCopyToNpgsql
+open JsonToNpgsql
 open ParseCommandLine
 open ReadFromStandardIn
 open System
@@ -30,19 +31,20 @@ let handleValidArgs options =
         sprintf "Server=%s;Port=%d;User Id=%s;Password=%s;Database=%s" options.server options.port options.userId 
             options.pwd options.db
     
-    let target = 
-        { connection = connString
-          table = options.table
+    let target : dbTarget = 
+        { table = options.table
           column = options.column }
     
-    let input = 
-        let raw = Console.OpenStandardInput()
-        let buffer = new BufferedStream(raw)
-        new StreamReader(buffer)
-    
-    input
-    |> readIt
-    |> pushTo target
+    let raw = Console.OpenStandardInput()
+    match options.importMethod with
+    | ImportMethod.BulkCopy -> raw |> bulkCopyStdInTo connString options.table
+    | ImportMethod.Insert -> 
+        let input = 
+            let buffer = new BufferedStream(raw)
+            new StreamReader(buffer)
+        input
+        |> readIt
+        |> pushTo connString target
 
 [<EntryPoint>]
 let main argv = 
