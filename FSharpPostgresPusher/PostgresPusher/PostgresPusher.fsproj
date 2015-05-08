@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7C6C3352-CA49-41B6-92A9-4A9D6D5873A6}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>PostgresPusher</RootNamespace>
+    <AssemblyName>PostgresPusher</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="Mono.Security">
+      <HintPath>..\packages\Npgsql.2.2.5\lib\net40\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\packages\Npgsql.2.2.5\lib\net40\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Data">
+      <HintPath>..\packages\FSharp.Data.2.2.1\lib\net40\FSharp.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\FSharpPostgresPusher\BulkCopyToNpgsql.fs">
+      <Link>BulkCopyToNpgsql.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpPostgresPusher\JsonResult.fs">
+      <Link>JsonResult.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpPostgresPusher\JsonToNpgsql.fs">
+      <Link>JsonToNpgsql.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpPostgresPusher\ParseCommandLine.fs">
+      <Link>ParseCommandLine.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpPostgresPusher\ReadFromStandardIn.fs">
+      <Link>ReadFromStandardIn.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpPostgresPusher\AssemblyInfo.fs">
+      <Link>AssemblyInfo.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpPostgresPusher\Program.fs">
+      <Link>Program.fs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
+  <ItemGroup>
+    <None Include="..\FSharpPostgresPusher\App.config">
+      <Link>App.config</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

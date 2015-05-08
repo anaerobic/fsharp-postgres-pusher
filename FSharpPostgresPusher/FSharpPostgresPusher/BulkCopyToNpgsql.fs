@@ -22,4 +22,4 @@ let bulkCopyStdInTo (connection : string) table stream =
         with :? NpgsqlException as ex2 -> 
             match ex2.ToString().Contains("Undo copy") with
             | false -> failwithf "Failed to cancel copy: %A upon failure: %A" ex2 ex
-            reraise()
+            | true -> reraise()
