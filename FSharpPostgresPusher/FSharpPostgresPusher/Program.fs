@@ -6,9 +6,10 @@ open System
 open System.IO
 
 let usage = """
-Usage: PostgresPusher [/s <server>] [/p <port>] [/u <userId>]
+Usage: PostgresPusher [/i <ImportMethod>] [/s <server>] [/p <port>] [/u <userId>]
                       [/pw <password>] [/db <database>]
                       [/tbl <table>] [/col <column_for_value>]
+/i <ImportMethod> - Default: Insert | BulkCopy
 /c <server> - Default: 127.0.0.1 The IP of the PostgreSQL server
 /d <port>   - Default: 5432
 /u <userId> - Default: postgres
